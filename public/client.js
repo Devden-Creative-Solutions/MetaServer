@@ -191,14 +191,8 @@ window.onload = (e) => {
 		madiaRecorder.start();
   
   
-		setTimeout(function () {
-		  madiaRecorder.stop();
-		}, time);
 	  });
   
-	  setTimeout(function () {
-		madiaRecorder.stop();
-	  }, time);
 	});
   
   
