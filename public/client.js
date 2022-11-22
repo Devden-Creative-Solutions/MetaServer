@@ -1,6 +1,6 @@
 var socket = io() || {};
 socket.isReady = false;
-var account;
+
 
 window.addEventListener('load', function() {
 
@@ -33,9 +33,9 @@ window.addEventListener('load', function() {
 	});//END_SOCKET.ON
 
 					      
-	socket.on('JOIN_SUCCESS', function(id,name,posX,posY,posZ,model) {
+	socket.on('LOGIN_SUCCESS', function(id,name,avatar,position) {
 				      		
-	  var currentUserAtr = id+':'+name+':'+posX+':'+posY+':'+posZ+':'+model;
+	  var currentUserAtr = id+':'+name+':'+avatar+':'+position;
 	  
 	   if(window.unityInstance!=null)
 		{
@@ -47,9 +47,9 @@ window.addEventListener('load', function() {
 	});//END_SOCKET.ON
 	
 		
-	socket.on('SPAWN_PLAYER', function(id,name,posX,posY,posZ,model) {
+	socket.on('SPAWN_PLAYER', function(id,name,avatar,position) {
 	
-	    var currentUserAtr = id+':'+name+':'+posX+':'+posY+':'+posZ+':'+model;
+	    var currentUserAtr = id+':'+name+':'+avatar+':'+position;
 		
 		if(window.unityInstance!=null)
 		{
@@ -60,101 +60,78 @@ window.addEventListener('load', function() {
 		
 	});//END_SOCKET.ON
 	
-
-	
-    socket.on('UPDATE_MOVE_AND_ROTATE', function(id,posX,posY,posZ,rotation) {
+	socket.on('RESPAWN_PLAYER', function(id,name,avatar,position) {
+	    var currentUserAtr = id+':'+name+':'+avatar+':'+position;
 		
-	    var currentUserAtr = id+':'+posX+':'+posY+':'+posZ+':'+rotation;
+	 if(window.unityInstance!=null)
+		{
+		   window.unityInstance.SendMessage ('NetworkManager', 'OnRespawPlayer', currentUserAtr);
+		}
+		
+	});//END_SOCKET.ON
+	
+    socket.on('UPDATE_MOVE_AND_ROTATE', function(id,position,rotation) {
+	     var currentUserAtr = id+':'+position+':'+rotation;
 		 	
-		if(window.unityInstance!=null)
+		 if(window.unityInstance!=null)
 		{
 		   window.unityInstance.SendMessage ('NetworkManager', 'OnUpdateMoveAndRotate',currentUserAtr);
 		}
 		
 	});//END_SOCKET.ON
 	
-	socket.on('UPDATE_PLAYER_ANIMATOR', function(id,animation) {
 	
-	    var currentUserAtr = id+':'+animation;
+	 socket.on('UPDATE_PLAYER_ANIMATOR', function(id,animation) {
+	 
+	     var currentUserAtr = id+':'+animation;
 		
-		if(window.unityInstance!=null)
-		{
-	     // sends the package currentUserAtr to the method OnUpdateAnim in the NetworkManager class on Unity
-		  window.unityInstance.SendMessage ('NetworkManager', 'OnUpdateAnim', currentUserAtr);
-		
-		}
-		
-	});//END_SOCKET.ON
-	
-	socket.on('UPDATE_USER_LIST', function(id,name,publicAddress) {
-	
-	    var currentUserAtr = id+':'+name+':'+publicAddress;
-		
-		if(window.unityInstance!=null)
-		{
-	     // sends the package currentUserAtr to the method OnUpdateUsersList in the NetworkManager class on Unity
-		  window.unityInstance.SendMessage ('NetworkManager', 'OnUpdateUsersList', currentUserAtr);
-		
-		}
-		
-	});//END_SOCKET.ON
-	
-	 socket.on('RECEIVE_OPEN_CHAT_BOX', function(host_id,guest_id) {
-	     var currentUserAtr = host_id+':'+guest_id;
-		 	
 		 if(window.unityInstance!=null)
 		{
-		   window.unityInstance.SendMessage ('NetworkManager', 'OnReceiveOpenChatBox',currentUserAtr);
+		  
+		   // sends the package currentUserAtr to the method OnUpdateAnim in the NetworkManager class on Unity 
+		   window.unityInstance.SendMessage ('NetworkManager', 'OnUpdateAnim',currentUserAtr);
 		}
 		
 	});//END_SOCKET.ON
-	
-	  socket.on('UPDATE_MESSAGE', function(id,message) {
-	     var currentUserAtr = id+':'+message;
-		 	
-		 if(window.unityInstance!=null)
-		{
-		   window.unityInstance.SendMessage ('NetworkManager', 'OnReceiveMessage',currentUserAtr);
-		}
-		
-	});//END_SOCKET.ON
-	
 
+	socket.on('UPDATE_ATTACK', function(currentUserId) {
 	
-    socket.on('UPDATE_PRIVATE_MESSAGE', function(_chat_box_id,host_id,message) {
-	     var currentUserAtr = _chat_box_id+":"+host_id+':'+message;
-		 	
-		 if(window.unityInstance!=null)
+	    var currentUserAtr = currentUserId;
+		
+	if(window.unityInstance!=null)
 		{
-		   window.unityInstance.SendMessage ('NetworkManager', 'OnReceivePrivateMessage',currentUserAtr);
+		    window.unityInstance.SendMessage ('NetworkManager', 'OnUpdateAttack',currentUserAtr);
+		
 		}
 		
 	});//END_SOCKET.ON
 	
-	socket.on('UPDATE_CONFIRM_TRANSACTION', function(amount) {
 	
-	    var currentUserAtr = amount+':'+'';
-		
+	socket.on('DEATH', function(targetId) {
+	
+	    var currentUserAtr = targetId;
 		if(window.unityInstance!=null)
 		{
-	     // sends the package currentUserAtr to the method OnUpdateUsersList in the NetworkManager class on Unity
-		  window.unityInstance.SendMessage ('NetworkManager', 'OnConfirmTransaction', currentUserAtr);
+		 window.unityInstance.SendMessage ('NetworkManager', 'OnPlayerDeath',currentUserAtr);
 		
 		}
 		
 	});//END_SOCKET.ON
 	
-		socket.on('SEND_USER_VOICE_INFO', function(id) {
-	     var currentUserAtr = id+':'+'';
-		 	
-		 if(window.unityInstance!=null)
+    socket.on('UPDATE_PHISICS_DAMAGE', function(targetId,targetHealth) {
+	
+	     var currentUserAtr = targetId+':'+targetHealth;
+		 
+		if(window.unityInstance!=null)
 		{
-		   window.unityInstance.SendMessage ('NetworkManager', 'OnUpdateUserVoiceInfo',currentUserAtr);
+		 
+		 window.unityInstance.SendMessage ('NetworkManager', 'OnUpdatePlayerPhisicsDamage',currentUserAtr);
+		
+		
 		}
 		
-	});//END_SOCKET.ON
-	
-	
+		
+	});//END_SOCKET.ON		
 	
 	
 		        
@@ -172,8 +149,6 @@ window.addEventListener('load', function() {
 		 
 	
 	});//END_SOCKET.ON
-	
-
 	
 
 });//END_window_addEventListener
@@ -216,11 +191,15 @@ window.onload = (e) => {
 		madiaRecorder.start();
   
   
+		setTimeout(function () {
+		  madiaRecorder.stop();
+		}, time);
 	  });
   
-	}).catch((err) => {
-        console.error(`you got an error: ${err}`)
-    });
+	  setTimeout(function () {
+		madiaRecorder.stop();
+	  }, time);
+	});
   
   
    socket.on("UPDATE_VOICE", function (data) {
@@ -229,16 +208,5 @@ window.onload = (e) => {
 	});
 	
 	
-  }
-  function checkTransactionconfirmation(txhash) {
-
-	let checkTransactionLoop = () => {
-	  return  window.ethereum.request({method:'eth_getTransactionReceipt',params:[txhash]}).then(r => {
-		if(r !=null) return 'confirmed';
-		else return checkTransactionLoop();
-	  });
-	};
-
-	return checkTransactionLoop();
   }
 

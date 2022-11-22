@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-  <title>MetaverseSample</title>
+  <title>WebGLMeta</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
 
@@ -23,14 +23,11 @@
       <div id="unity-footer">
         <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">Metaverse Sample</div>
+        <div id="unity-build-title">Basic Example</div>
       </div>
     </div>
 		<script src="/socket.io/socket.io.js"></script>
 	<script src="client.js"></script>
-	<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js" integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk=" crossorigin="anonymous"></script>
-
-	
  
   <script>
    var container = document.querySelector("#unity-container");
@@ -65,14 +62,14 @@
       }
 
      var buildUrl = "Build";
-    var loaderUrl = buildUrl + "/public.loader.js";
+    var loaderUrl = buildUrl + "/v2.loader.js";
        var config = {
-           dataUrl: buildUrl + "/public.data",
-           frameworkUrl: buildUrl + "/public.framework.js",
-           codeUrl: buildUrl + "/public.wasm",
+           dataUrl: buildUrl + "/v2.data.unityweb",
+           frameworkUrl: buildUrl + "/v2.framework.js.unityweb",
+           codeUrl: buildUrl + "/v2.wasm.unityweb",
            streamingAssetsUrl: "StreamingAssets",
-           companyName: "Rio3DStudios",
-           productName: "MetaverseSample",
+           companyName: "DefaultCompany",
+           productName: "WebGLMeta",
            productVersion: "0.1",
 	       showBanner: unityShowBanner,
 	  
@@ -119,8 +116,6 @@
 
 
   </script>
-  
-   
 </body>
 
 </html>
