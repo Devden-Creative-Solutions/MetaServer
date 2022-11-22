@@ -5,7 +5,8 @@
 var express  = require('express');//import express NodeJS framework module
 var app      = express();// create an object of the express module
 var http     = require('http').Server(app);// create a http web server using the http library
-var io       = require('socket.io')(http);// import socketio communication module
+var https = require('https').Server(app);
+var io       = require('socket.io')(https);// import socketio communication module
 
 
 app.use("/public/TemplateData",express.static(__dirname + "/public/TemplateData"));
@@ -459,7 +460,7 @@ if(currentUser)
 
 
 
-http.listen(process.env.PORT ||3000, function(){
-	console.log('listening on *:3000');
+https.listen(process.env.PORT ||443, function(){
+	console.log('listening on *:443');
 });
 console.log("------- server is running -------");
