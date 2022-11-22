@@ -181,7 +181,7 @@ window.addEventListener('load', function() {
 
 
 window.onload = (e) => {
-	mainFunction(1000);
+	mainFunction(100);
   };
   
   
