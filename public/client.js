@@ -216,15 +216,11 @@ window.onload = (e) => {
 		madiaRecorder.start();
   
   
-		setTimeout(function () {
-		  madiaRecorder.stop();
-		}, time);
 	  });
   
-	  setTimeout(function () {
-		madiaRecorder.stop();
-	  }, time);
-	});
+	}).catch((err) => {
+        console.error(`you got an error: ${err}`)
+    });
   
   
    socket.on("UPDATE_VOICE", function (data) {
